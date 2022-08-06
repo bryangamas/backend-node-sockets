@@ -9,6 +9,8 @@ app.get("/", (_req, res) => {
   res.send("Hello World");
 });
 
+app.use("/app", express.static("public"));
+
 app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Server is running on port ${port}`);
