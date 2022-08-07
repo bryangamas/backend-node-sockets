@@ -1,14 +1,23 @@
 const Joi = require("joi");
+const joiObjectId = require("./utils/joiObjectId");
 
-const id = Joi.string().regex(/^[0-9a-fA-F]{24}$/);
+const id = joiObjectId();
 const name = Joi.string().min(3).max(30);
-const users = Joi.array().items(id.required());
+const users = Joi.array().items(joiObjectId().required());
 
 const createChatSchema = Joi.object().keys({
   name: name.required(),
   users: users.required(),
 });
 
+const getChatSchema = Joi.object({
+  id: id,
+  chatId: id,
+})
+  .or("id", "chatId")
+  .required();
+
 module.exports = {
   createChatSchema,
+  getChatSchema,
 };

@@ -1,4 +1,4 @@
-const boom = require('@hapi/boom');
+const boom = require("@hapi/boom");
 
 const validationHandler = (schema, property) => {
   return (req, _res, next) => {
