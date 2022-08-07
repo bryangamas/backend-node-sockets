@@ -22,7 +22,7 @@ app.get("/", (_req, res) => {
   res.send("Hello World");
 });
 
-app.use("/app", express.static("public"));
+app.use("/app", express.static(__dirname + "/public"));
 
 app.use(responseHandler);
 
