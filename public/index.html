@@ -7,10 +7,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>App con Express 😎</title>
   <link rel="stylesheet" href="./css/styles.css">
+  <script src="/socket.io/socket.io.js"></script>
 </head>
 
 <body>
   <h1>Hola desde Express 😛</h1>
+  <script>
+    const socket = io('/');
+    socket.on('connect', function () {
+      console.log('Conectado al servidor');
+    });
+    socket.on('disconnect', function () {
+      console.log('Desconectado del servidor');
+    });
+    socket.on('message', function (data) {
+      console.log('New message: ', data);
+    });
+  </script>
 </body>
 
 </html>

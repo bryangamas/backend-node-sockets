@@ -1,6 +1,7 @@
 const boom = require("@hapi/boom");
 const ChatModel = require("../db/models/chat.model");
 const MessageModel = require("../db/models/message.model");
+const { socket } = require("../libs/socket");
 
 class ChatMessagesService {
   async find(chatId, query) {
@@ -25,12 +26,15 @@ class ChatMessagesService {
     if (chat.users.indexOf(message.user) === -1) {
       throw boom.badRequest("User is not part of this chat");
     }
-    const newMessage = new MessageModel({
+    const newMessage = await new MessageModel({
       message: message.message,
       chat: chatId,
       user: message.user,
-    });
-    return newMessage.save();
+    }).save();
+
+    socket.io.emit("message", newMessage);
+
+    return newMessage;
   }
 }
 
