@@ -1,27 +1,12 @@
 const express = require("express");
+require("express-async-errors"); // allows to handle async errors in express
 require("dotenv").config();
-const multer = require("multer");
 
-const storage = multer.diskStorage({
-  destination: function (_req, _file, cb) {
-    cb(null, "./public/files");
-  },
-  filename: function (_req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(
-      null,
-      file.fieldname +
-        "-" +
-        uniqueSuffix +
-        "." +
-        file.originalname.split(".").pop()
-    );
-  },
-});
+const responseHandler = require("./middlewares/response.handler");
+const useErrorHandlers = require("./middlewares/error.handler");
 
-const upload = multer({ storage: storage });
-
-const connectDatabase = require("./config/database");
+const connectDatabase = require("./libs/mongoose");
+const apiRouter = require("./routes");
 
 const app = express();
 const port = process.env.PORT || 3501;
@@ -36,11 +21,10 @@ app.get("/", (_req, res) => {
 
 app.use("/app", express.static("public"));
 
-app.post("/api/send-file", upload.single("file"), (req, res) => {
-  // eslint-disable-next-line no-console
-  console.log({ body: req.body, file: req.file });
-  res.send("File uploaded");
-});
+app.use(responseHandler);
+
+apiRouter(app);
+useErrorHandlers(app);
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
