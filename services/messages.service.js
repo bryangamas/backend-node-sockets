@@ -3,7 +3,7 @@ const ChatModel = require("../db/models/chat.model");
 const MessageModel = require("../db/models/message.model");
 const { socket } = require("../libs/socket");
 
-class ChatMessagesService {
+class MessagesService {
   async find(chatId, query) {
     const chat = await ChatModel.findById(chatId).exec();
     if (!chat) {
@@ -38,4 +38,4 @@ class ChatMessagesService {
   }
 }
 
-module.exports = ChatMessagesService;
+module.exports = MessagesService;

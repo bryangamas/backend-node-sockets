@@ -11,11 +11,8 @@ const createChatSchema = Joi.object().keys({
 });
 
 const getChatSchema = Joi.object({
-  id: id,
-  chatId: id,
-})
-  .or("id", "chatId")
-  .required();
+  id: id.required(),
+});
 
 module.exports = {
   createChatSchema,

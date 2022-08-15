@@ -1,5 +1,5 @@
 const express = require("express");
-require("express-async-errors"); // allows to handle async errors in express
+require("express-async-errors"); // allows handling async errors in express
 require("dotenv").config();
 
 const responseHandler = require("./middlewares/response.handler");
@@ -7,7 +7,7 @@ const useErrorHandlers = require("./middlewares/error.handler");
 
 const connectDatabase = require("./libs/mongoose");
 const connectSocket = require("./libs/socket");
-const apiRouter = require("./routes");
+const useApiRouter = require("./routes");
 
 const app = express();
 const server = require("http").Server(app);
@@ -26,7 +26,7 @@ app.use("/app", express.static(__dirname + "/public"));
 
 app.use(responseHandler);
 
-apiRouter(app);
+useApiRouter(app);
 useErrorHandlers(app);
 
 server.listen(port, () => {
