@@ -2,6 +2,7 @@ const express = require("express");
 
 const usersRouter = require("./users.router");
 const chatsRouter = require("./chats.router");
+const messagesRouter = require("./messages.router");
 
 function apiRouter(app) {
   const router = express.Router();
@@ -10,6 +11,7 @@ function apiRouter(app) {
   /** Routes */
   router.use("/chats", chatsRouter);
   router.use("/users", usersRouter);
+  router.use("/chats/:chatId/messages", messagesRouter);
 }
 
 module.exports = apiRouter;

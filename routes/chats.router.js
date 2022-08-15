@@ -3,7 +3,6 @@ const validationHandler = require("../middlewares/validation.handler");
 const { getChatSchema, createChatSchema } = require("../schemas/chat.schema");
 
 const ChatsService = require("./../services/chat.service");
-const chatMessagesRouter = require("./chat.messages.router");
 
 const router = express.Router();
 const service = new ChatsService();
@@ -51,12 +50,6 @@ router.delete(
     const chat = await service.delete(id);
     res.success(chat);
   }
-);
-
-router.use(
-  "/:chatId/messages",
-  validationHandler(getChatSchema, "params"),
-  chatMessagesRouter
 );
 
 module.exports = router;
